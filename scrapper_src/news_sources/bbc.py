@@ -1,6 +1,7 @@
 ﻿from bs4 import BeautifulSoup
 import requests
 from scrapper_src.data_scrapper import DataScrapper
+from scrapper_src.utils import debug_print
 
 
 class BBC_scrapper(DataScrapper):
@@ -35,7 +36,7 @@ class BBC_scrapper(DataScrapper):
                 return
 
         if self.verbose:
-            print(f"Scraping article urls from {url}")
+            debug_print(f"Scraping article urls from {url}", __file__)
         response = requests.get(url)
         soup = BeautifulSoup(response.text, "html.parser")
         for link in soup.find_all("a"):
@@ -54,7 +55,7 @@ class BBC_scrapper(DataScrapper):
         """
         Get articles from article urls
         """
-        for url in self.article_urls[0]:
+        for url in self.article_urls[:1]:
             self.articles.append({"url": url, **self._scrape_article(url)})
         return self.articles
 
